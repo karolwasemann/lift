@@ -12,13 +12,31 @@ let lastScroll = elevator.scrollTop;
 elevator.addEventListener(
   'scroll',
   function() {
-    var st = elevator.scrollTop;
-    if (st > lastScroll) {
+    let currentScroll = elevator.scrollTop;
+
+    if (currentScroll > lastScroll) {
       direction.innerHTML = `Kierunek: ${directions.bottom}`;
     } else {
       direction.innerHTML = `Kierunek: ${directions.top}`;
     }
-    lastScroll = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+    wichFloor(currentScroll);
   },
   false
 );
+
+const wichFloor = currentScroll => {
+  const floors = document.querySelectorAll('.floor');
+
+  const div = document.createElement('div');
+  direction.appendChild(div);
+
+  let x = 0;
+
+  floors.forEach(floor => {
+    if (currentScroll >= x) {
+      div.innerHTML = floor.innerHTML;
+      x += 146;
+    }
+  });
+};
